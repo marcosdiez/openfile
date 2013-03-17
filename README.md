@@ -66,6 +66,9 @@ If you type (on your Unix box, though putty):
     $of  File "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__
     (open z:\3s\code\.engGama\src\django\django\core\servers\basehttp.py on line 139)
 
+    $of  "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__
+    (open z:\3s\code\.engGama\src\django\django\core\servers\basehttp.py on line 139)
+
 
 ## How it works
 
@@ -84,10 +87,15 @@ That means the tool is safe as long as you are not running nasty code **AND** yo
 ## What comes in the package
 
 * smb.conf
-* the **of** shell script
-* the C# server (compiled and source)
+* the **of** python script
+* the C# server (compiled and source) # no install and no config, just click and run!
 * this documentation
 
+## Settings
+
+I recomend uncommenting the following lines on **of**
+#ALTERNATIVEOPENER="c:\progra~1\sublim~1\sublim~1.exe"
+as the default editor is wordpad.exe ( common denonimator )
 
 ## Known Bugs
 
@@ -96,9 +104,11 @@ As the following settings were used on smb.conf
 every time one edits a file on Windows it stops being executable on unix. The solution for that would be writing a daemon that listen to filesystem changes and chmod the files automatically.
 
 
-
 ## Meta
 Created by Marcos Diez < marcos AT unitron.com.br >
 Released under the MIT License: http://www.opensource.org/licenses/mit-license.php
 http://github.com/marcosdiez/openfile
+
+
+Icon by http://www.creativefreedom.co.uk/ ( http://www.iconfinder.com/icondetails/61771/48/folder_icon )
 
