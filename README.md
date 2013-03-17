@@ -1,4 +1,3 @@
-
  OpenFile
 ===========
 OpenFile is a set of scripts to close the gap of developing on Linux in a Windows box.
@@ -22,7 +21,7 @@ To have Windows on my computer, but with a *real* Unix shell (not cygwin) instea
 * Make sure both machines connect with each other though IP ( NAT or BRIDGE )
 * Share your Unix homedir and /tmp with Windows thought **samba** ( mine are z: and x:, respectively )
 * Use **putty** to connect to your Unix box, authenticating though ssh keys so you *never* have to type any password
-* Use the scripts in this package to close the gab
+* Use the script in this package to close the gab
 
 ##The Script
 
@@ -57,10 +56,10 @@ If you type (on your Unix box, though putty):
     (notepad++.exe or sublime text if you did your homework properly)
 
     $of myapp/somescript.py
-    (opens Z:\folder1\folder2\myapp\myscript.py on the default editor)
+    (opens Z:\folder1\folder2\myapp\myscript.py on Windows with the associated editor 
 
     $of myspreadsheet.xlsx
-    (opens z:\folder1\folder2\myspreadsheet.xlsx with Excel or OpenOffice)
+    ((opens Z:\folder1\folder2\myapp\myscript.py on Windows with the associated editor (Excel/OpenOffice)
 
     **bonus**
     $of  File "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__
@@ -94,8 +93,9 @@ That means the tool is safe as long as you are not running nasty code **AND** yo
 ## Settings
 
 I recomend uncommenting the following lines on **of**
-#ALTERNATIVEOPENER="c:\progra~1\sublim~1\sublim~1.exe"
+  ALTERNATIVEOPENER="c:\progra~1\sublim~1\sublim~1.exe"
 as the default editor is wordpad.exe ( common denonimator )
+Also, you must change your folder paths on **of** ( /tmp is x: and $HOME is z: as default )
 
 ## Known Bugs
 
