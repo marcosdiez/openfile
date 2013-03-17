@@ -62,6 +62,10 @@ If you type (on your Unix box, though putty):
     $of myspreadsheet.xlsx
     (opens z:\folder1\folder2\myspreadsheet.xlsx with Excel or OpenOffice)
 
+    **bonus**
+    $of # File "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__
+    (open z:\3s\code\.engGama\src\django\django\core\servers\basehttp.py on line 139)
+
 
 ## How it works
 
