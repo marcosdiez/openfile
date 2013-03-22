@@ -1,26 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="FolderOpener2.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
   <Profiles />
-  <Settings>
-    <Setting Name="search" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;/home/marcos/tmp&lt;/string&gt;
-  &lt;string&gt;/tmp&lt;/string&gt;
-  &lt;string&gt;/home/marcos&lt;/string&gt;
-  &lt;string&gt;/&lt;/string&gt;
-  &lt;string&gt;__sublime__&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
-    </Setting>
-    <Setting Name="replace" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;z:\tmp&lt;/string&gt;
-  &lt;string&gt;x:&lt;/string&gt;
-  &lt;string&gt;z:&lt;/string&gt;
-  &lt;string&gt;\&lt;/string&gt;
-  &lt;string&gt;c:\progra~1\sublim~1\sublime_text.exe&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
-    </Setting>
-  </Settings>
+  <Settings />
 </SettingsFile>
