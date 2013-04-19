@@ -56,7 +56,7 @@ If you type (on your Unix box, though putty):
     (notepad++.exe or sublime text if you did your homework properly)
 
     $of myapp/somescript.py
-    (opens Z:\folder1\folder2\myapp\myscript.py on Windows with the associated editor 
+    (opens Z:\folder1\folder2\myapp\myscript.py on Windows with the associated editor
 
     $of myspreadsheet.xlsx
     ((opens Z:\folder1\folder2\myapp\myscript.py on Windows with the associated editor (Excel/OpenOffice)
@@ -102,6 +102,10 @@ Also, you must change your folder paths on **of** ( /tmp is x: and $HOME is z: a
 As the following settings were used on smb.conf
     create mask = 0644
 every time one edits a file on Windows it stops being executable on unix. The solution for that would be writing a daemon that listen to filesystem changes and chmod the files automatically.
+
+## merger
+
+merger is a tool that uses openfile so one can use winmerge to see diference between branches
 
 
 ## Meta
