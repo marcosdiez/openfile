@@ -16,13 +16,13 @@ replace_path = [
 	["/" , "\\"] ,
 ]
 
-#ALTERNATIVEOPENER="c:\progra~1\sublim~1\sublim~1.exe"
-#DEFAULTOPENER=ALTERNATIVEOPENER
+ALTERNATIVEOPENER="c:\progra~1\sublim~1\sublim~1.exe"
+DEFAULTOPENER=ALTERNATIVEOPENER
 
 #the ALTERNATIVEOPENER will be used for files without extensions (README, .bashrc, etc...)
-ALTERNATIVEOPENER="wordpad.exe"
+#ALTERNATIVEOPENER="wordpad.exe"
 #the default opener will use windows associations. I actually use sublime edit for everything.
-DEFAULTOPENER=""
+#DEFAULTOPENER=""
 
 
 #################################################
@@ -58,27 +58,38 @@ def main():
 
 	target_url = sys.argv[1][0:-1]
 	if os.path.isfile(target_url):
+		sys.argv[3]=sys.argv[3].replace(",","")
 		openfile(target_url+":"+sys.argv[3])
 		return
 
 	print "Error: [%s] does not exist." % target_url
 
 def opendir(the_path):
-	send_socket_cmd(path_replaced(make_absolute_path_if_necessary(the_path)))
+	send_socket_cmd(convert_path(the_path))
+
+def get_file_extension(the_path):
+	last_dot=the_path.rfind(".")
+	return the_path[last_dot+1:].lower()
 
 def openfile(the_path):
 	last_slash=the_path.rfind("/")
 	last_dot=the_path.rfind(".")
+
 	if last_dot == -1 or last_slash > last_dot or last_dot == len(the_path)-1:
 		opener = ALTERNATIVEOPENER
 	else:
-		opener = DEFAULTOPENER
+		extension = get_file_extension(the_path)
+		if extension in ( "mp3", "xml" , "xlsx" , "doc" , "docx" , "jpg" , "png" , "ico" ):
+			opener = ""
+		else:
+			opener = DEFAULTOPENER
 
-	the_path = opener + " " + path_replaced(make_absolute_path_if_necessary(the_path))
+	the_path = opener + " " + convert_path(the_path)
 	send_socket_cmd(the_path)
 
 def send_socket_cmd(msg):
 	msg = msg.strip()
+	print msg
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	sock.connect((server_ip(), TARGET_PORT))
 	totalsent = 0
@@ -93,6 +104,9 @@ def make_absolute_path_if_necessary(the_path):
 	if the_path[0] == "/":
 		return the_path
 	return os.getcwd() + "/" + the_path
+
+def convert_path(the_path):
+	return path_replaced(make_absolute_path_if_necessary(the_path))
 
 def path_replaced(the_path):
 	for replace_pair in replace_path:
@@ -116,4 +130,5 @@ of File "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.p
 of "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__ #open on line 139
 """
 
-main()
+if __name__=="__main__":
+	main()
