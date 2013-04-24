@@ -27,15 +27,29 @@ DEFAULTOPENER=ALTERNATIVEOPENER
 
 #################################################
 def main():
+	#no parameter, we open the current folder
 	if len(sys.argv) == 1:
-		target_url = os.getcwd()
-	else:
-		target_url = sys.argv[1]
+		open_url(os.getcwd())
+		return
 
-	if target_url == "-h" or target_url == "--help":
+	if sys.argv[1] in ( "-h" , "--help" , "-help" ):
 		usage()
 		return
 
+	if sys.argv[1] == "File" and not os.path.exists("File"):
+		del sys.argv[1]
+
+	if sys.argv[2] == "line" and not os.path.exists("line"):
+		#now this is for python errors, like File "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__
+		open_url(sys.argv[1] + ":" + sys.argv[2].replace(",",""))
+		return
+
+	for parameter in sys.argv[1:]:
+		open_url(parameter)
+	return
+
+
+def open_url(target_url):
 	if os.path.isdir(target_url):
 		opendir(target_url)
 		return
@@ -52,17 +66,13 @@ def main():
 			openfile(target_url) #this is not a bug. some editors will open README:22 on line 22 :)
 			return
 
-	#now this is for python errors, like File "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__
-	if sys.argv[1] == "File":
-		del sys.argv[1]
-
 	target_url = sys.argv[1][0:-1]
 	if os.path.isfile(target_url):
 		sys.argv[3]=sys.argv[3].replace(",","")
 		openfile(target_url+":"+sys.argv[3])
 		return
 
-	print "Error: [%s] does not exist." % target_url
+	print "Error: File/Dir [%s] does not exist." % target_url
 
 def opendir(the_path):
 	send_socket_cmd(convert_path(the_path))
