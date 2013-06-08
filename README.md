@@ -59,7 +59,7 @@ If you type (on your Unix box, though putty):
     (opens Z:\folder1\folder2\myapp\myscript.py on Windows with the associated editor
 
     $of myspreadsheet.xlsx
-    ((opens Z:\folder1\folder2\myapp\myscript.py on Windows with the associated editor (Excel/OpenOffice)
+    ((opens Z:\folder1\folder2\myapp\myspreadsheet.xlsx on Windows with the associated editor (Excel/OpenOffice)
 
     **bonus**
     $of  File "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__
