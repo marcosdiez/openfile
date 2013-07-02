@@ -37,36 +37,36 @@ If you type (on your Unix box, though putty):
     /home/marcos/folder1/folder2
 
     $of
-    (opens Z:\folder1\folder2 on Windows Explorer)
+    #opens Z:\folder1\folder2 on Windows Explorer
 
     $of anotherfolder
-    (opens Z:\folder1\folder2\anotherfolder on Windows Explorer)
+    #opens Z:\folder1\folder2\anotherfolder on Windows Explorer
 
     $of ..
-    (opens Z:\folder1 on Windows Explorer)
+    #opens Z:\folder1 on Windows Explorer
 
     $of ../../../..
-    (gives you an error)
+    #gives you an error
 
     $of /tmp
-    (opens X:\)
+    #opens X:\
 
     $of /tmp/blah.txt
-    (opens X:\blah.txt on Windows with the associated editor ( notepad.exe )
-    (notepad++.exe or sublime text if you did your homework properly)
+    #opens X:\blah.txt on Windows with the associated editor ( notepad.exe )
+    #notepad++.exe or sublime text if you did your homework properly
 
     $of myapp/somescript.py
-    (opens Z:\folder1\folder2\myapp\myscript.py on Windows with the associated editor
+    #opens Z:\folder1\folder2\myapp\myscript.py on Windows with the associated editor
 
     $of myspreadsheet.xlsx
-    ((opens Z:\folder1\folder2\myapp\myspreadsheet.xlsx on Windows with the associated editor (Excel/OpenOffice)
+    #opens Z:\folder1\folder2\myapp\myscript.py on Windows with the associated editor (Excel/OpenOffice)
 
     **bonus**
     $of  File "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__
-    (open z:\3s\code\.engGama\src\django\django\core\servers\basehttp.py on line 139)
+    #opens z:\3s\code\.engGama\src\django\django\core\servers\basehttp.py on line 139
 
     $of  "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__
-    (open z:\3s\code\.engGama\src\django\django\core\servers\basehttp.py on line 139)
+    #opens z:\3s\code\.engGama\src\django\django\core\servers\basehttp.py on line 139
 
 
 ## How it works
@@ -76,7 +76,7 @@ The only possible way: it is necessary to run a C# server on Windows which accep
 It is actually not insecure if used properly (yes, it was made to be used by adults). Whenever on runs **of**, it sends the request to the IP which connected to the virtual terminal. The server will receive the request and pop up on the an UI saying that it received a request. If you click on accept, it will start trusting this IP address.
 To improve security:
 
-* you can only trust on IP at a time (i.e. trusting another IP will make it automatically untrusts the former IP)
+* it trusts only one IP at a time (i.e. trusting another IP will make it automatically untrusts the former IP)
 * it does not save the trusted IP anywhere, so if you restart the program it will ask it again.
 
 
@@ -97,11 +97,12 @@ I recomend uncommenting the following lines on **of**
 as the default editor is wordpad.exe ( common denonimator )
 Also, you must change your folder paths on **of** ( /tmp is x: and $HOME is z: as default )
 
-## Known Bugs
+# smb.conf
+This is the smb.conf that I use (samba 3.6.3)
+The most important settings are:
+force user = marcos # so that all access comes are considered from my user
+map archieve = no   # so that samba stops messing with my u+x bit
 
-As the following settings were used on smb.conf
-    create mask = 0644
-every time one edits a file on Windows it stops being executable on unix. The solution for that would be writing a daemon that listen to filesystem changes and chmod the files automatically.
 
 ## merger
 
