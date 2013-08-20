@@ -99,13 +99,16 @@ Also, you must change your folder paths on **of** ( /tmp is x: and $HOME is z: a
 
 ## Known Bugs
 
-As the following settings were used on smb.conf
-    create mask = 0644
-every time one edits a file on Windows it stops being executable on unix. The solution for that would be writing a daemon that listen to filesystem changes and chmod the files automatically.
+**none*** 
 
 ## merger
 
 merger is a tool that uses openfile so one can use winmerge to see diference between branches
+
+
+usage: ./merger.py FIRST_BRANCH SECOND_BRANCH FILE
+
+opens WinMerge to compare the file from both branches
 
 
 ## Meta
