@@ -39,7 +39,7 @@ def main():
 	if sys.argv[1] == "File" and not os.path.exists("File"):
 		del sys.argv[1]
 
-	if sys.argv[2] == "line" and not os.path.exists("line"):
+	if len(sys.argv) > 2 and sys.argv[2] == "line" and not os.path.exists("line"):
 		#now this is for python errors, like File "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__
 		open_url(sys.argv[1] + ":" + sys.argv[2].replace(",",""))
 		return
@@ -50,6 +50,10 @@ def main():
 
 
 def open_url(target_url):
+	if is_internet_address(target_url):
+		send_socket_cmd(target_url)
+		return
+
 	if os.path.isdir(target_url):
 		opendir(target_url)
 		return
@@ -74,6 +78,10 @@ def open_url(target_url):
 
 	print "Error: File/Dir [%s] does not exist." % target_url
 
+
+def is_internet_address(target_url):
+	return target_url.find("http://") == 0 or target_url.find("https://") == 0
+
 def opendir(the_path):
 	send_socket_cmd(convert_path(the_path))
 
@@ -89,7 +97,7 @@ def openfile(the_path):
 		opener = ALTERNATIVEOPENER
 	else:
 		extension = get_file_extension(the_path)
-		if extension in ( "mp3", "xml" , "xlsx" , "doc" , "docx" , "jpg" , "png" , "ico" ):
+		if extension in ( "mp3", "xlsx" , "doc" , "docx" , "jpg" , "png" , "ico" ):
 			opener = ""
 		else:
 			opener = DEFAULTOPENER
