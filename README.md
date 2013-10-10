@@ -10,11 +10,9 @@ OpenFile is a set of scripts to close the gap of developing on Linux in a Window
 
 ##The Objective
 
-
 To have Windows on my computer, but with a *real* Unix shell (not cygwin) instead of *cmd.exe*.
 
 ##The solution
-
 
 * Have Windows installed as your main OS
 * Install Unix on another machine (or a Virtual Machine )
@@ -26,7 +24,7 @@ To have Windows on my computer, but with a *real* Unix shell (not cygwin) instea
 ##The Script
 
 
-The script is called **of**, which means both *openfile* and *openfolder*. It opens files and folder located in the Unix box on the Windows machine, just like **start.exe** (technical explanation later)
+The script is called **of**, which means both *openfile* and *openfolder*. It opens files and folders located in the Unix box on the Windows machine, just like **start.exe** (technical explanation later). It also launches websites from the unix box in the Windows browser
 
 
 Examples:
@@ -41,6 +39,12 @@ If you type (on your Unix box, though putty):
 
     $of anotherfolder
     (opens Z:\folder1\folder2\anotherfolder on Windows Explorer)
+
+    $of http://google.com
+    (opens http://google.com on Windows' default internet browser)
+
+    $of https://google.com
+    (opens https://google.com on Windows' default internet browser)
 
     $of ..
     (opens Z:\folder1 on Windows Explorer)
