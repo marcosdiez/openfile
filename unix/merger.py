@@ -9,7 +9,7 @@ winmerge="c:\progs\WinMerge-2.8.4-exe\WinMergeU.exe"
 
 def check_parameters():
 	if len(sys.argv) < 3:
-		print "usage: {} FILE FIRST_BRANCH SECOND_BRANCH".format(sys.argv[0])
+		print "usage: {} FIRST_BRANCH SECOND_BRANCH FILE".format(sys.argv[0])
 		sys.exit(0)
 
 	the_file = sys.argv[3]
@@ -18,17 +18,26 @@ def check_parameters():
 		sys.exit(0)
 
 def obtin_files(the_file, first_branch, second_branch):
+	def run_cmd(the_parameters, target_file):
+		print the_parameters
+		subprocess.check_output(the_parameters)
+		the_file = the_parameters[3]
+		print "renaming [{}] to [{}]".format(the_file, target_file)
+		os.rename(the_file, target_file)
+
 	os.rename(the_file, the_file + ".tmp")
 
 	mask = "/tmp/{}.{}.{}".format(the_file,"{}",of.get_file_extension(the_file))
 	first_file = mask.format(first_branch.replace("/","_"))
 	second_file = mask.format(second_branch.replace("/","_"))
 
-	subprocess.check_output(["git", "checkout", first_branch , the_file])
-	os.rename(the_file, first_file)
+	run_cmd(["git", "checkout", first_branch , the_file], first_file)
+	#os.rename(the_file, first_file)
 
-	subprocess.check_output(["git", "checkout", second_branch , the_file])
-	os.rename(the_file, second_file)
+	run_cmd(["git", "checkout", second_branch , the_file], second_file)
+	#os.rename(the_file, second_file)
+
+
 	os.rename(the_file + ".tmp", the_file)
 
 	return first_file , second_file
@@ -48,5 +57,6 @@ def main():
 
 
 if __name__=="__main__":
+#	import rpdb2; rpdb2.start_embedded_debugger("123")
 	main()
 
