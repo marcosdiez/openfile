@@ -11,8 +11,9 @@ TARGET_PORT = 9998
 
 replace_path = [
 	[os.environ.get('HOME') + "/tmp" , "z:\\tmp"] ,
-	["/tmp" , "x:\\"] ,
-	[os.environ.get('HOME') , "z:"] ,
+	["/tmp/" , "u:\\"] ,
+	[os.environ.get('HOME') , "v:"] ,
+	["/srv" , "v:\\"] ,
 	["/" , "\\"] ,
 ]
 
