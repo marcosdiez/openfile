@@ -98,7 +98,7 @@ def openfile(the_path):
 		opener = ALTERNATIVEOPENER
 	else:
 		extension = get_file_extension(the_path)
-		if extension in ( "mp3", "xlsx" , "doc" , "docx" , "jpg" , "png" , "ico" ):
+		if extension in ( "mp3", "xlsx" , "doc" , "docx" , "jpg" , "png" , "ico", "sqlite3", "pdf" ):
 			opener = ""
 		else:
 			opener = DEFAULTOPENER
