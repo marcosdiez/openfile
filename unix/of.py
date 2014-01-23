@@ -17,6 +17,7 @@ replace_path = [
 	["/" , "\\"] ,
 ]
 
+USER_DEFINED_OPENER=None
 ALTERNATIVEOPENER="c:\progra~1\sublim~1\sublim~1.exe"
 DEFAULTOPENER=ALTERNATIVEOPENER
 
@@ -37,6 +38,8 @@ def main():
 		usage()
 		return
 
+	parse_user_defined_opener()
+
 	if sys.argv[1] == "File" and not os.path.exists("File"):
 		del sys.argv[1]
 
@@ -48,6 +51,19 @@ def main():
 	for parameter in sys.argv[1:]:
 		open_url(parameter)
 	return
+
+
+def parse_user_defined_opener():
+	global USER_DEFINED_OPENER
+	magic_string = "--opener="
+	counter = 0
+	for argv in sys.argv:
+		if argv.find(magic_string) == 0:
+			del sys.argv[counter]
+			USER_DEFINED_OPENER = argv[len(magic_string):]
+			return
+		counter+=1
+
 
 
 def open_url(target_url):
@@ -94,14 +110,18 @@ def openfile(the_path):
 	last_slash=the_path.rfind("/")
 	last_dot=the_path.rfind(".")
 
-	if last_dot == -1 or last_slash > last_dot or last_dot == len(the_path)-1:
-		opener = ALTERNATIVEOPENER
+
+	if USER_DEFINED_OPENER != None:
+		opener = USER_DEFINED_OPENER
 	else:
-		extension = get_file_extension(the_path)
-		if extension in ( "mp3", "xlsx" , "doc" , "docx" , "jpg" , "png" , "ico", "sqlite3", "pdf" ):
-			opener = ""
+		if last_dot == -1 or last_slash > last_dot or last_dot == len(the_path)-1:
+			opener = ALTERNATIVEOPENER
 		else:
-			opener = DEFAULTOPENER
+			extension = get_file_extension(the_path)
+			if extension in ( "mp3", "xlsx" , "doc" , "docx" , "jpg" , "png" , "ico", "sqlite3", "pdf" ):
+				opener = ""
+			else:
+				opener = DEFAULTOPENER
 
 	the_path = opener + " " + convert_path(the_path)
 	send_socket_cmd(the_path)
@@ -147,6 +167,9 @@ of somefolder"
 of somefolder/otherfolder/blah.xls
 of File "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__ #open on line 139
 of "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__ #open on line 139
+of /tmp/blah.txt --opener=wordpad                           #opens with worpad
+of /tmp/blah.txt --opener="c:\\windows\\notepad.exe"          #opens with c:\windows\\notepad.exe (quotes are necessary for slashes)
+
 """
 
 if __name__=="__main__":
