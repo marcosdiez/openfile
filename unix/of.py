@@ -110,7 +110,6 @@ def openfile(the_path):
 	last_slash=the_path.rfind("/")
 	last_dot=the_path.rfind(".")
 
-
 	if USER_DEFINED_OPENER != None:
 		opener = USER_DEFINED_OPENER
 	else:
@@ -139,13 +138,14 @@ def send_socket_cmd(msg):
 			raise RuntimeError("socket connection broken")
 		totalsent = totalsent + sent
 
+def convert_path(the_path):
+	return path_replaced(make_absolute_path_if_necessary(the_path))
+
 def make_absolute_path_if_necessary(the_path):
 	if the_path[0] == "/":
 		return the_path
 	return os.getcwd() + "/" + the_path
 
-def convert_path(the_path):
-	return path_replaced(make_absolute_path_if_necessary(the_path))
 
 def path_replaced(the_path):
 	for replace_pair in replace_path:
