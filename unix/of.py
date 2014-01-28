@@ -9,7 +9,7 @@ import socket
 
 TARGET_PORT = 9998
 
-replace_path = [
+REPLACE_PATH = [
     [os.environ.get('HOME') + "/tmp" , "z:\\tmp"] ,
     ["/tmp/" , "u:\\"] ,
     [os.environ.get('HOME') , "v:"] ,
@@ -17,14 +17,14 @@ replace_path = [
     ["/" , "\\"] ,
 ]
 
-USER_DEFINED_OPENER=None
-ALTERNATIVEOPENER="c:\progra~1\sublim~1\sublim~1.exe"
-DEFAULTOPENER=ALTERNATIVEOPENER
+USER_DEFINED_OPENER = None
+ALTERNATIVEOPENER = """c:\\progra~1\\sublim~1\\sublim~1.exe"""
+DEFAULTOPENER = ALTERNATIVEOPENER
 
 #the ALTERNATIVEOPENER will be used for files without extensions (README, .bashrc, etc...)
 #ALTERNATIVEOPENER="wordpad.exe"
 #the default opener will use windows associations. I actually use sublime edit for everything.
-#DEFAULTOPENER=""
+#DEFAULTOPENER = ""
 
 
 #################################################
@@ -62,7 +62,7 @@ def parse_user_defined_opener():
             del sys.argv[counter]
             USER_DEFINED_OPENER = argv[len(magic_string):]
             return
-        counter+=1
+        counter += 1
 
 
 
@@ -89,7 +89,7 @@ def open_url(target_url):
 
     target_url = sys.argv[1][0:-1]
     if os.path.isfile(target_url):
-        sys.argv[3]=sys.argv[3].replace(",","")
+        sys.argv[3] = sys.argv[3].replace(",","")
         openfile(target_url+":"+sys.argv[3])
         return
 
@@ -103,12 +103,12 @@ def opendir(the_path):
     send_socket_cmd(convert_path(the_path))
 
 def get_file_extension(the_path):
-    last_dot=the_path.rfind(".")
+    last_dot = the_path.rfind(".")
     return the_path[last_dot+1:].lower()
 
 def openfile(the_path):
-    last_slash=the_path.rfind("/")
-    last_dot=the_path.rfind(".")
+    last_slash = the_path.rfind("/")
+    last_dot = the_path.rfind(".")
 
     if USER_DEFINED_OPENER != None:
         opener = USER_DEFINED_OPENER
@@ -131,7 +131,7 @@ def send_socket_cmd(msg):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect((server_ip(), TARGET_PORT))
     totalsent = 0
-    msglen=len(msg)
+    msglen = len(msg)
     while totalsent < msglen:
         sent = sock.send(msg[totalsent:])
         if sent == 0:
@@ -148,17 +148,19 @@ def make_absolute_path_if_necessary(the_path):
 
 
 def path_replaced(the_path):
-    for replace_pair in replace_path:
+    for replace_pair in REPLACE_PATH:
         the_path = the_path.replace(replace_pair[0], replace_pair[1])
     return the_path
 
 def server_ip():
     #IP=`who --ips -m|egrep -o --color=no   "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+"`
     output = subprocess.check_output(["who", "--ips", "-m"])
-    m = re.search("\d+\.\d+.\d+.\d+" , output)
-    return m.group(0)
+    the_ip = re.search("\\d+\\.\\d+.\\d+.\\d+" , output)
+    return the_ip.group(0)
 
 def usage():
+    """explains how to use the program"""
+
     print """Opens Folders and Files on the remote machine.
 usage:
 
@@ -172,5 +174,5 @@ of /tmp/blah.txt --opener="c:\\windows\\notepad.exe"          #opens with c:\win
 
 """
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
