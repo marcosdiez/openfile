@@ -122,7 +122,7 @@ def openfile(the_path):
             else:
                 opener = DEFAULTOPENER
 
-    the_path = opener + " " + convert_path(the_path)
+    the_path = opener + " \"" + convert_path(the_path) + "\""
     send_socket_cmd(the_path)
 
 def send_socket_cmd(msg):
