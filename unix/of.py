@@ -10,11 +10,11 @@ import socket
 TARGET_PORT = 9998
 
 REPLACE_PATH = [
-    [os.environ.get('HOME') + "/tmp" , "z:\\tmp"] ,
-    ["/tmp/" , "u:\\"] ,
-    [os.environ.get('HOME') , "v:"] ,
-    ["/srv" , "v:\\"] ,
-    ["/" , "\\"] ,
+    # [os.environ.get('HOME') + "/tmp" , "z:\\tmp"] ,
+    # ["/tmp/" , "u:\\"] ,
+    # [os.environ.get('HOME') , "\\\\192.168.64.131\\marcosX\\home\\ubuntu"] ,
+    # ["/srv" , "v:\\"] ,
+    ["/" , "\\\\192.168.64.131\\marcosX\\"] ,
 ]
 
 USER_DEFINED_OPENER = None
@@ -148,11 +148,14 @@ def make_absolute_path_if_necessary(the_path):
 
 
 def path_replaced(the_path):
+    old_path=the_path
     for replace_pair in REPLACE_PATH:
-        the_path = the_path.replace(replace_pair[0], replace_pair[1])
+        the_path = the_path.replace(replace_pair[0], replace_pair[1], 1)
+    print "{} -> {}".format(old_path,the_path)
     return the_path
 
 def server_ip():
+    return "192.168.64.1"
     #IP=`who --ips -m|egrep -o --color=no   "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+"`
     output = subprocess.check_output(["who", "--ips", "-m"])
     the_ip = re.search("\\d+\\.\\d+.\\d+.\\d+" , output)
