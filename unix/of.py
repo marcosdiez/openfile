@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+from __future__ import unicode_literals
+
 import subprocess
 import sys
 import re
@@ -14,12 +16,20 @@ REPLACE_PATH = [
     # ["/tmp/" , "u:\\"] ,
     # [os.environ.get('HOME') , "\\\\192.168.64.131\\marcosX\\home\\ubuntu"] ,
     # ["/srv" , "v:\\"] ,
-    ["/" , "\\\\192.168.64.131\\marcosX\\"] ,
+   # ["/" , "\\\\192.168.64.131\\marcosX\\"] ,
+    ["/" , "y:\\"] ,
 ]
 
 USER_DEFINED_OPENER = None
-ALTERNATIVEOPENER = """c:\\progra~1\\sublim~1\\sublim~1.exe"""
+# ALTERNATIVEOPENER = """c:\\progra~1\\sublim~1\\sublim~1.exe"""
+ALTERNATIVEOPENER = """C:\\Progra~2\\JetBrains\\PYCHAR~2.5\\bin\\pycharm.exe"""
 DEFAULTOPENER = ALTERNATIVEOPENER
+
+OPEN_COMMAND_FORMAT_STRING_WITH_LINE_NUMBERS = "{opener} --line {line_number} \"{file_path}\""  #pycharm
+#OPEN_COMMAND_FORMAT_STRING_WITH_LINE_NUMBERS = "{opener} \"{file_path}\":{line_number}# " #sublime
+OPEN_COMMAND_FORMAT_STRING_WITHOUT_LINE_NUMBERS = "{opener} \"{file_path}\""
+
+
 
 #the ALTERNATIVEOPENER will be used for files without extensions (README, .bashrc, etc...)
 #ALTERNATIVEOPENER="wordpad.exe"
@@ -44,8 +54,12 @@ def main():
         del sys.argv[1]
 
     if len(sys.argv) > 2 and sys.argv[2] == "line" and not os.path.exists("line"):
-        #now this is for python errors, like File "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__
-        open_url(sys.argv[1] + ":" + sys.argv[2].replace(",",""))
+        #now this is for python errors, like
+
+        # File "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__
+        line_number = sys.argv[3].replace(",","")
+        the_file = sys.argv[1].replace(",","")
+        openfile(the_file, line_number)
         return
 
     for parameter in sys.argv[1:]:
@@ -82,15 +96,16 @@ def open_url(target_url):
     #files that have a column and a number followed by should be interpreted as line numbers
     cln = target_url.find(":")
     if cln > 0:
-        new_url = target_url[0:cln]
-        if os.path.isfile(new_url):
-            openfile(target_url) #this is not a bug. some editors will open README:22 on line 22 :)
+        file_name = target_url[0:cln]
+        if os.path.isfile(file_name):
+            line_number = target_url[cln+1:]
+            openfile(file_name, line_number)
             return
 
     target_url = sys.argv[1][0:-1]
     if os.path.isfile(target_url):
-        sys.argv[3] = sys.argv[3].replace(",","")
-        openfile(target_url+":"+sys.argv[3])
+        line_number = sys.argv[3].replace(",","")
+        openfile(target_url, line_number)
         return
 
     print "Error: File/Dir [%s] does not exist." % target_url
@@ -106,7 +121,7 @@ def get_file_extension(the_path):
     last_dot = the_path.rfind(".")
     return the_path[last_dot+1:].lower()
 
-def openfile(the_path):
+def openfile(the_path, line_number = None):
     last_slash = the_path.rfind("/")
     last_dot = the_path.rfind(".")
 
@@ -122,8 +137,13 @@ def openfile(the_path):
             else:
                 opener = DEFAULTOPENER
 
-    the_path = opener + " \"" + convert_path(the_path) + "\""
-    send_socket_cmd(the_path)
+    sample_cmd = OPEN_COMMAND_FORMAT_STRING_WITHOUT_LINE_NUMBERS
+    if line_number is not None:
+        sample_cmd = OPEN_COMMAND_FORMAT_STRING_WITH_LINE_NUMBERS
+
+    file_path = convert_path(the_path)
+    the_cmd=sample_cmd.format(opener=opener, line_number=line_number, file_path=file_path)
+    send_socket_cmd(the_cmd)
 
 def send_socket_cmd(msg):
     msg = msg.strip()
@@ -151,6 +171,7 @@ def path_replaced(the_path):
     old_path=the_path
     for replace_pair in REPLACE_PATH:
         the_path = the_path.replace(replace_pair[0], replace_pair[1], 1)
+    the_path = the_path.replace(os.sep, "\\")
     print "{} -> {}".format(old_path,the_path)
     return the_path
 
