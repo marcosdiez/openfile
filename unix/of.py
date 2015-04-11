@@ -20,16 +20,38 @@ REPLACE_PATH = [
     ["/", "y:\\"],
 ]
 
-USER_DEFINED_OPENER = None
-# ALTERNATIVEOPENER = """c:\\progra~1\\sublim~1\\sublim~1.exe"""
-ALTERNATIVEOPENER = """C:\\Progra~2\\JetBrains\\PYCHAR~2.5\\bin\\pycharm.exe"""
-DEFAULTOPENER = ALTERNATIVEOPENER
+openers = {
+    "pycharm": {
+        "path": """C:\\Progra~2\\JetBrains\\PYCHAR~2.5\\bin\\pycharm.exe""",
+        "open_with_line_number_cmd": "{opener} --line {line_number} \"{file_path}\"",
+        "open_without_line_number_cmd": "{opener} \"{file_path}\""
+    },
+    "sublime": {
+        "path": """c:\\progra~1\\sublim~1\\sublim~1.exe""",
+        "open_with_line_number_cmd": "{opener} \"{file_path}\":{line_number} ",
+        "open_without_line_number_cmd": "{opener} \"{file_path}\""
+    },
+    "explorer": {
+        "path": "explorer.exe",
+        "open_with_line_number_cmd": '{opener} "{file_path}"',
+        "open_without_line_number_cmd": '{opener} "{file_path}"',
+    }
+}
 
-OPEN_COMMAND_FORMAT_STRING_WITH_LINE_NUMBERS = "{opener} --line {line_number} \"{file_path}\""  #pycharm
-#OPEN_COMMAND_FORMAT_STRING_WITH_LINE_NUMBERS = "{opener} \"{file_path}\":{line_number}# " #sublime
-OPEN_COMMAND_FORMAT_STRING_WITHOUT_LINE_NUMBERS = "{opener} \"{file_path}\""
-
-
+open_associations = {
+    ".py": openers["pycharm"],
+    ".mp3": openers["explorer"],
+    ".xls": openers["explorer"],
+    ".xlsx": openers["explorer"],
+    ".doc": openers["explorer"],
+    ".docx": openers["explorer"],
+    ".jpg": openers["explorer"],
+    ".png": openers["explorer"],
+    ".ico": openers["explorer"],
+    ".sqlite3": openers["explorer"],
+    ".pdf": openers["explorer"],
+    "*": openers["sublime"],
+}
 
 #the ALTERNATIVEOPENER will be used for files without extensions (README, .bashrc, etc...)
 #ALTERNATIVEOPENER="wordpad.exe"
@@ -124,27 +146,21 @@ def get_file_extension(the_path):
 
 
 def openfile(the_path, line_number=None):
-    last_slash = the_path.rfind("/")
     last_dot = the_path.rfind(".")
+    extension = the_path[last_dot:]
 
-    if USER_DEFINED_OPENER != None:
-        opener = USER_DEFINED_OPENER
+    if extension in open_associations:
+        opener = open_associations[extension]
     else:
-        if last_dot == -1 or last_slash > last_dot or last_dot == len(the_path) - 1:
-            opener = ALTERNATIVEOPENER
-        else:
-            extension = get_file_extension(the_path)
-            if extension in ( "mp3", "xlsx", "doc", "docx", "jpg", "png", "ico", "sqlite3", "pdf" ):
-                opener = ""
-            else:
-                opener = DEFAULTOPENER
+        opener = open_associations["*"]
 
-    sample_cmd = OPEN_COMMAND_FORMAT_STRING_WITHOUT_LINE_NUMBERS
-    if line_number is not None:
-        sample_cmd = OPEN_COMMAND_FORMAT_STRING_WITH_LINE_NUMBERS
+    if line_number is None:
+        cmd = opener["open_without_line_number_cmd"]
+    else:
+        cmd = opener["open_with_line_number_cmd"]
 
     file_path = convert_path(the_path)
-    the_cmd = sample_cmd.format(opener=opener, line_number=line_number, file_path=file_path)
+    the_cmd = cmd.format(opener=opener["path"], file_path=file_path, line_number=line_number)
     send_socket_cmd(the_cmd)
 
 
@@ -200,8 +216,6 @@ of somefolder"
 of somefolder/otherfolder/blah.xls
 of File "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__ #open on line 139
 of "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__ #open on line 139
-of /tmp/blah.txt --opener=wordpad                           #opens with worpad
-of /tmp/blah.txt --opener="c:\\windows\\notepad.exe"          #opens with c:\windows\\notepad.exe (quotes are necessary for slashes)
 
 """
 
