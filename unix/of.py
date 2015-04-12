@@ -21,6 +21,11 @@ REPLACE_PATH = [
 ]
 
 openers = {
+    "androidstudio": {
+        "path": """C:\\Users\\Marcos\\AppData\\Local\\Android\\android-studio\\bin\\studio64.exe""",
+        "open_with_line_number_cmd": "{opener} --line {line_number} \"{file_path}\"",
+        "open_without_line_number_cmd": "{opener} \"{file_path}\""
+    },
     "pycharm": {
         "path": """C:\\Progra~2\\JetBrains\\PYCHAR~2.5\\bin\\pycharm.exe""",
         "open_with_line_number_cmd": "{opener} --line {line_number} \"{file_path}\"",
@@ -50,6 +55,7 @@ open_associations = {
     ".ico": openers["explorer"],
     ".sqlite3": openers["explorer"],
     ".pdf": openers["explorer"],
+    ".java": openers["androidstudio"],
     "*": openers["sublime"],
 }
 
