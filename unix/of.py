@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from __future__ import unicode_literals
 
+import time
 import subprocess
 import sys
 import re
@@ -16,7 +17,7 @@ REPLACE_PATH = [
     # ["/tmp/" , "u:\\"] ,
     # [os.environ.get('HOME') , "\\\\192.168.64.131\\marcosX\\home\\ubuntu"] ,
     # ["/srv" , "v:\\"] ,
-    # ["/" , "\\\\192.168.64.131\\marcosX\\"] ,
+    # ["/" , "\\\\192.168.64.140\\marcosX\\"] ,
     ["/", "y:\\"],
 ]
 
@@ -28,8 +29,8 @@ openers = {
     },
     "pycharm": {
         "path": """C:\\Progra~2\\JetBrains\\PYCHAR~2.5\\bin\\pycharm.exe""",
-        "open_with_line_number_cmd": "{opener} --line {line_number} \"{file_path}\"",
-        "open_without_line_number_cmd": "{opener} \"{file_path}\""
+        "open_with_line_number_cmd": "{opener} y:\\home\\ubuntu\\3s\\ff1 --line {line_number} \"{file_path}\"",
+        "open_without_line_number_cmd": "{opener} y:\\home\\ubuntu\\3s\\ff1 \"{file_path}\""
     },
     "sublime": {
         "path": """c:\\progra~1\\sublim~1\\sublim~1.exe""",
@@ -40,7 +41,13 @@ openers = {
         "path": "explorer.exe",
         "open_with_line_number_cmd": '{opener} "{file_path}"',
         "open_without_line_number_cmd": '{opener} "{file_path}"',
+    },
+    "audacity": {
+        "path": "c:\\Progra~2\\Audacity\\audacity.exe",
+        "open_with_line_number_cmd": '{opener} "{file_path}"',
+        "open_without_line_number_cmd": '{opener} "{file_path}"',
     }
+
 }
 
 open_associations = {
@@ -56,6 +63,7 @@ open_associations = {
     ".sqlite3": openers["explorer"],
     ".pdf": openers["explorer"],
     ".java": openers["androidstudio"],
+    ".wav": openers["audacity"],
     "*": openers["sublime"],
 }
 
@@ -90,7 +98,13 @@ def main():
         openfile(the_file, line_number)
         return
 
+    first = True
     for parameter in sys.argv[1:]:
+        if first:
+            first = False
+        else:
+            #time.sleep(3)
+            pass
         open_url(parameter)
     return
 
@@ -199,12 +213,11 @@ def path_replaced(the_path):
     for replace_pair in REPLACE_PATH:
         the_path = the_path.replace(replace_pair[0], replace_pair[1], 1)
     the_path = the_path.replace(os.sep, "\\")
-    print "{} -> {}".format(old_path, the_path)
+    print "{} -- {} -> {}".format(server_ip(), old_path, the_path)
     return the_path
 
 
 def server_ip():
-    return "192.168.64.1"
     #IP=`who --ips -m|egrep -o --color=no   "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+"`
     output = subprocess.check_output(["who", "--ips", "-m"])
     the_ip = re.search("\\d+\\.\\d+.\\d+.\\d+", output)
