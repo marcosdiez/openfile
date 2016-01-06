@@ -18,7 +18,8 @@ REPLACE_PATH = [
     # [os.environ.get('HOME') , "\\\\192.168.64.131\\marcosX\\home\\ubuntu"] ,
     # ["/srv" , "v:\\"] ,
     # ["/" , "\\\\192.168.64.140\\marcosX\\"] ,
-    ["/", "y:\\"],
+    ["/extra/u/rootfs", "y:\\" ],
+    ["/", "\\\\192.168.58.128\\marcosX\\"],
 ]
 
 openers = {
@@ -28,7 +29,7 @@ openers = {
         "open_without_line_number_cmd": "{opener} \"{file_path}\""
     },
     "pycharm": {
-        "path": """C:\\Progra~2\\JetBrains\\PYCHAR~2.5\\bin\\pycharm.exe""",
+        "path": """C:\\Progra~2\\JetBrains\\PYCHAR~1.2\\bin\\pycharm.exe""",
         "open_with_line_number_cmd": "{opener} y:\\home\\ubuntu\\3s\\ff1 --line {line_number} \"{file_path}\"",
         "open_without_line_number_cmd": "{opener} y:\\home\\ubuntu\\3s\\ff1 \"{file_path}\""
     },
@@ -211,7 +212,9 @@ def make_absolute_path_if_necessary(the_path):
 def path_replaced(the_path):
     old_path = the_path
     for replace_pair in REPLACE_PATH:
-        the_path = the_path.replace(replace_pair[0], replace_pair[1], 1)
+        if replace_pair[0] in the_path:
+            the_path = the_path.replace(replace_pair[0], replace_pair[1], 1)
+            break
     the_path = the_path.replace(os.sep, "\\")
     print "{} -- {} -> {}".format(server_ip(), old_path, the_path)
     return the_path
