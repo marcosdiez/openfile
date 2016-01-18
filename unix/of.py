@@ -19,7 +19,14 @@ REPLACE_PATH = [
     # ["/srv" , "v:\\"] ,
     # ["/" , "\\\\192.168.64.140\\marcosX\\"] ,
     ["/extra/u/rootfs", "y:\\" ],
-    ["/", "\\\\192.168.58.128\\marcosX\\"],
+    ["/", "z:\\"],
+]
+
+PROJECT_FOLDERS = [
+    [ "3s/ff1" , "y:\\home\\ubuntu\\3s\\ff1" ],
+    [ "3s/ff2" , "y:\\home\\ubuntu\\3s\\ff2" ],
+    [ "3s/ff3" , "y:\\home\\ubuntu\\3s\\ff3" ],
+    [ "3s/whisky" , "y:\\home\\ubuntu\\3s\\whisky" ]
 ]
 
 openers = {
@@ -30,13 +37,13 @@ openers = {
     },
     "pycharm": {
         "path": """C:\\Progra~2\\JetBrains\\PYCHAR~1.2\\bin\\pycharm.exe""",
-        "open_with_line_number_cmd": "{opener} y:\\home\\ubuntu\\3s\\ff1 --line {line_number} \"{file_path}\"",
-        "open_without_line_number_cmd": "{opener} y:\\home\\ubuntu\\3s\\ff1 \"{file_path}\""
+        "open_with_line_number_cmd": "{opener} {project_folder} --line {line_number} \"{file_path}\"",
+        "open_without_line_number_cmd": "{opener} {project_folder} \"{file_path}\""
     },
     "sublime": {
-        "path": """c:\\progra~1\\sublim~1\\sublim~1.exe""",
-        "open_with_line_number_cmd": "{opener} \"{file_path}\":{line_number} ",
-        "open_without_line_number_cmd": "{opener} \"{file_path}\""
+        "path": """c:\\progra~2\\mifa7f~1\\code.exe""",
+        "open_with_line_number_cmd": "{opener} -g -r \"{file_path}\":{line_number} ",
+        "open_without_line_number_cmd": "{opener} -r \"{file_path}\""
     },
     "explorer": {
         "path": "explorer.exe",
@@ -158,7 +165,7 @@ def is_internet_address(target_url):
 
 
 def opendir(the_path):
-    send_socket_cmd(convert_path(the_path))
+    send_socket_cmd(path_replaced(make_absolute_path_if_necessary(the_path)))
 
 
 def get_file_extension(the_path):
@@ -180,10 +187,24 @@ def openfile(the_path, line_number=None):
     else:
         cmd = opener["open_with_line_number_cmd"]
 
-    file_path = convert_path(the_path)
-    the_cmd = cmd.format(opener=opener["path"], file_path=file_path, line_number=line_number)
+    the_path = make_absolute_path_if_necessary(the_path)
+
+    project_folder = get_project_folder(the_path)
+    file_path = path_replaced(the_path)
+
+    the_cmd = cmd.format(opener=opener["path"],
+                         file_path=file_path,
+                         line_number=line_number,
+                         project_folder=project_folder
+                         )
     send_socket_cmd(the_cmd)
 
+def get_project_folder(file_path):
+    print file_path
+    for project_folder in PROJECT_FOLDERS:
+        if project_folder[0] in file_path:
+            return project_folder[1]
+    return ""
 
 def send_socket_cmd(msg):
     msg = msg.strip()
@@ -199,8 +220,7 @@ def send_socket_cmd(msg):
         totalsent = totalsent + sent
 
 
-def convert_path(the_path):
-    return path_replaced(make_absolute_path_if_necessary(the_path))
+
 
 
 def make_absolute_path_if_necessary(the_path):
