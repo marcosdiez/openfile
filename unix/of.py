@@ -165,7 +165,11 @@ def is_internet_address(target_url):
 
 
 def opendir(the_path):
-    send_socket_cmd(path_replaced(make_absolute_path_if_necessary(the_path)))
+    send_socket_cmd(convert_path(the_path))
+
+
+def convert_path(the_path):
+    return path_replaced(make_absolute_path_if_necessary(the_path))
 
 
 def get_file_extension(the_path):
