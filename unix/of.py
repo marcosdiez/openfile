@@ -18,16 +18,10 @@ REPLACE_PATH = [
     # [os.environ.get('HOME') , "\\\\192.168.64.131\\marcosX\\home\\ubuntu"] ,
     # ["/srv" , "v:\\"] ,
     # ["/" , "\\\\192.168.64.140\\marcosX\\"] ,
-    ["/extra/u/rootfs", "y:\\" ],
     ["/", "z:\\"],
 ]
 
-PROJECT_FOLDERS = [
-    [ "3s/ff1" , "y:\\home\\ubuntu\\3s\\ff1" ],
-    [ "3s/ff2" , "y:\\home\\ubuntu\\3s\\ff2" ],
-    [ "3s/ff3" , "y:\\home\\ubuntu\\3s\\ff3" ],
-    [ "3s/whisky" , "y:\\home\\ubuntu\\3s\\whisky" ]
-]
+
 
 openers = {
     "androidstudio": {
@@ -40,7 +34,7 @@ openers = {
         "open_with_line_number_cmd": "{opener} {project_folder} --line {line_number} \"{file_path}\"",
         "open_without_line_number_cmd": "{opener} {project_folder} \"{file_path}\""
     },
-    "sublime": {
+    "mscode": {
         "path": """c:\\progra~2\\mifa7f~1\\code.exe""",
         "open_with_line_number_cmd": "{opener} -g -r \"{file_path}\":{line_number} ",
         "open_without_line_number_cmd": "{opener} -r \"{file_path}\""
@@ -72,7 +66,7 @@ open_associations = {
     ".pdf": openers["explorer"],
     ".java": openers["androidstudio"],
     ".wav": openers["audacity"],
-    "*": openers["sublime"],
+    "*": openers["mscode"],
 }
 
 #the ALTERNATIVEOPENER will be used for files without extensions (README, .bashrc, etc...)
@@ -193,7 +187,7 @@ def openfile(the_path, line_number=None):
 
     the_path = make_absolute_path_if_necessary(the_path)
 
-    project_folder = get_project_folder(the_path)
+    project_folder = path_replaced(get_project_folder(the_path))
     file_path = path_replaced(the_path)
 
     the_cmd = cmd.format(opener=opener["path"],
@@ -204,15 +198,24 @@ def openfile(the_path, line_number=None):
     send_socket_cmd(the_cmd)
 
 def get_project_folder(file_path):
-    print file_path
-    for project_folder in PROJECT_FOLDERS:
-        if project_folder[0] in file_path:
-            return project_folder[1]
+    # this is ridiculous
+    # a PyCharm project stais under a .idea folder
+    # so I have to look for the folder in order for pycharm to work as expected
+    folder = os.path.dirname(file_path)
+
+    while True:
+        if os.path.isdir(os.path.join(folder, ".idea")):
+            return folder
+
+        pos = folder.rfind("/")
+        if pos < 1:
+            break
+        folder = folder[0:pos]
+
     return ""
 
 def send_socket_cmd(msg):
     msg = msg.strip()
-    print msg
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect((server_ip(), TARGET_PORT))
     totalsent = 0
