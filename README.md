@@ -17,9 +17,9 @@ To have Windows on my computer, but with a *real* Unix shell (not cygwin) instea
 * Have Windows installed as your main OS
 * Install Unix on another machine (or a Virtual Machine )
 * Make sure both machines connect with each other though IP ( NAT or BRIDGE )
-* Share your Unix homedir and /tmp with Windows thought **samba** ( mine are z: and x:, respectively )
+* Share your Unix / folder with Windows thought **samba** ( mine are z:)
 * Use **putty** to connect to your Unix box, authenticating though ssh keys so you *never* have to type any password
-* Use the script in this package to close the gab
+* Use this script in this package to close the gab
 
 ##The Script
 
@@ -35,10 +35,10 @@ If you type (on your Unix box, though putty):
     /home/marcos/folder1/folder2
 
     $of
-    (opens Z:\folder1\folder2 on Windows Explorer)
+    (opens Z:\home\marcos\folder1\folder2 on Windows Explorer)
 
     $of anotherfolder
-    (opens Z:\folder1\folder2\anotherfolder on Windows Explorer)
+    (opens Z:\home\marcos\folder1\folder2\anotherfolder on Windows Explorer)
 
     $of http://google.com
     (opens http://google.com on Windows' default internet browser)
@@ -47,30 +47,30 @@ If you type (on your Unix box, though putty):
     (opens https://google.com on Windows' default internet browser)
 
     $of ..
-    (opens Z:\folder1 on Windows Explorer)
+    (opens Z:\home\marcos\folder1 on Windows Explorer)
 
-    $of ../../../..
+    $of ../../../../../../../../
     (gives you an error)
 
     $of /tmp
-    (opens X:\)
+    (opens z:/tmp)
 
     $of /tmp/blah.txt
-    (opens X:\blah.txt on Windows with the associated editor ( notepad.exe )
-    (notepad++.exe or sublime text if you did your homework properly)
+    (opens z:\tmp\blah.txt on Windows with the associated editor ( notepad.exe )
+    (notepad++.exe or microsoft visual studio code if you did your homework properly)
 
     $of myapp/somescript.py
-    (opens Z:\folder1\folder2\myapp\myscript.py on Windows with the associated editor
+    (opens Z:\home\marcos\folder1\folder2\myapp\myscript.py on Windows with the associated editor)
 
     $of myspreadsheet.xlsx
-    ((opens Z:\folder1\folder2\myapp\myspreadsheet.xlsx on Windows with the associated editor (Excel/OpenOffice)
+    (opens Z:\home\marcos\folder1\folder2\myapp\myspreadsheet.xlsx on Windows with the associated editor (Excel/OpenOffice))
 
     **bonus**
     $of  File "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__
-    (open z:\3s\code\.engGama\src\django\django\core\servers\basehttp.py on line 139)
+    (open z:\home\marcos\3s\code\.engGama\src\django\django\core\servers\basehttp.py on line 139)
 
     $of  "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__
-    (open z:\3s\code\.engGama\src\django\django\core\servers\basehttp.py on line 139)
+    (open z:\home\marcos\3s\code\.engGama\src\django\django\core\servers\basehttp.py on line 139)
 
 
 ## How it works
@@ -99,7 +99,7 @@ That means the tool is safe as long as you are not running nasty code **AND** yo
 I recomend uncommenting the following lines on **of**
   ALTERNATIVEOPENER="c:\progra~1\sublim~1\sublim~1.exe"
 as the default editor is wordpad.exe ( common denonimator )
-Also, you must change your folder paths on **of** ( /tmp is x: and $HOME is z: as default )
+Also, you must change your folder paths on **of** (  z: is / as default )
 
 ## Known Bugs
 
