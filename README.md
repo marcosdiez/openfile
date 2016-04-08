@@ -21,7 +21,7 @@ To have Windows on my computer, but with a *real* Unix shell (not cygwin) instea
 * Use **putty** to connect to your Unix box, authenticating though ssh keys so you *never* have to type any password
 * on Windows, run FolderOpener2.exe, which is the server that handles requests from Linux
 * on Linux, run of.py and the other python scripts. It's even more fun if you put them on your PATH
-* you may want to edit of.py to change the path of the openers. since spaces don't work well, use *dir /X* to get the 8 chars folder names
+* you may want to edit of.py to change the path of the openers. Since spaces don't work well, use *dir /X* to get the 8 chars folder names
 
 
 ##An alternative solution if you use Windows 10 with Microsoft Subsystem for Linux (bash on Ubuntu on Windows)
@@ -29,7 +29,8 @@ To have Windows on my computer, but with a *real* Unix shell (not cygwin) instea
 * use Windows 10 with "bash on Ubuntu on Windows"
 * on Windows, run FolderOpener2.exe, which is the server that handles requests from Linux
 * on bash, run of.py and the other python scripts. It's even more fun if you put them on your PATH
-* you may want to edit of.py to change the path of the openers. since spaces don't work well, use *dir /X* to get the 8 chars folder names
+* you may want to edit of.py to change the path of the openers. Since spaces don't work well, use *dir /X* to get the 8 chars folder names
+
 
 ##The Script
 
