@@ -13,11 +13,10 @@ import socket
 TARGET_PORT = 9998
 
 REPLACE_PATH = [
-    # [os.environ.get('HOME') + "/tmp" , "z:\\tmp"] ,
-    # ["/tmp/" , "u:\\"] ,
-    # [os.environ.get('HOME') , "\\\\192.168.64.131\\marcosX\\home\\ubuntu"] ,
-    # ["/srv" , "v:\\"] ,
-    # ["/" , "\\\\192.168.64.140\\marcosX\\"] ,
+    ["/mnt/c/", "c:\\"], # microsoft linux
+    ["/mnt/d/", "d:\\"], # microsoft linux
+    ["/mnt/e/", "e:\\"], # microsoft linux
+    ["/mnt/f/", "f:\\"], # microsoft linux
     ["/", "z:\\"],
 ]
 
@@ -247,7 +246,16 @@ def path_replaced(the_path):
     return the_path
 
 
+def is_microsoft_linux():
+    with file("/proc/version") as f:
+        file_content = f.read()
+        return "Microsoft" in file_content
+    return False
+
+
 def server_ip():
+    if is_microsoft_linux():
+        return "127.0.0.1"
     #IP=`who --ips -m|egrep -o --color=no   "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+"`
     output = subprocess.check_output(["who", "--ips", "-m"])
     the_ip = re.search("\\d+\\.\\d+.\\d+.\\d+", output)

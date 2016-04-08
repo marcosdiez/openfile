@@ -28,7 +28,10 @@ class LocalRemoteFile(FileSystemEventHandler):
 
     def copy_file(self, source_file, target_file):
         print "Copying {} to {}".format(source_file, target_file)
-        subprocess.check_output(["scp", source_file, target_file])
+        try:
+            subprocess.check_output(["scp", source_file, target_file])
+        except:
+            pass
 
     def generate_temp_file(self):
         pos = self.remotefile.find(":")

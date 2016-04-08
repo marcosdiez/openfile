@@ -1,6 +1,6 @@
  OpenFile
 ===========
-OpenFile is a set of scripts to close the gap of developing on Linux in a Windows box.
+**OpenFile** is a set of scripts to close the gap of developing on Linux in a Windows box.
 
 ##The Problem
 
@@ -19,7 +19,17 @@ To have Windows on my computer, but with a *real* Unix shell (not cygwin) instea
 * Make sure both machines connect with each other though IP ( NAT or BRIDGE )
 * Share your Unix / folder with Windows thought **samba** ( mine are z:)
 * Use **putty** to connect to your Unix box, authenticating though ssh keys so you *never* have to type any password
-* Use this script in this package to close the gab
+* on Windows, run FolderOpener2.exe, which is the server that handles requests from Linux
+* on Linux, run of.py and the other python scripts. It's even more fun if you put them on your PATH
+* you may want to edit of.py to change the path of the openers. since spaces don't work well, use *dir /X* to get the 8 chars folder names
+
+
+##An alternative solution if you use Windows 10 with Microsoft Subsystem for Linux (bash on Ubuntu on Windows)
+
+* use Windows 10 with "bash on Ubuntu on Windows"
+* on Windows, run FolderOpener2.exe, which is the server that handles requests from Linux
+* on bash, run of.py and the other python scripts. It's even more fun if you put them on your PATH
+* you may want to edit of.py to change the path of the openers. since spaces don't work well, use *dir /X* to get the 8 chars folder names
 
 ##The Script
 
@@ -32,45 +42,45 @@ Examples:
 If you type (on your Unix box, though putty):
 
     $pwd
-    /home/marcos/folder1/folder2
+    #/home/marcos/folder1/folder2
 
     $of
-    (opens Z:\home\marcos\folder1\folder2 on Windows Explorer)
+    #opens Z:\home\marcos\folder1\folder2 on Windows Explorer
 
     $of anotherfolder
-    (opens Z:\home\marcos\folder1\folder2\anotherfolder on Windows Explorer)
+    #opens Z:\home\marcos\folder1\folder2\anotherfolder on Windows Explorer
 
     $of http://google.com
-    (opens http://google.com on Windows' default internet browser)
+    #opens http://google.com on Windows' default internet browser
 
     $of https://google.com
-    (opens https://google.com on Windows' default internet browser)
+    #opens https://google.com on Windows' default internet browser
 
     $of ..
-    (opens Z:\home\marcos\folder1 on Windows Explorer)
+    #opens Z:\home\marcos\folder1 on Windows Explorer
 
     $of ../../../../../../../../
-    (gives you an error)
+    #gives you an error
 
     $of /tmp
-    (opens z:/tmp)
+    #opens z:/tmp
 
     $of /tmp/blah.txt
-    (opens z:\tmp\blah.txt on Windows with the associated editor ( notepad.exe )
-    (notepad++.exe or microsoft visual studio code if you did your homework properly)
+    #opens z:\tmp\blah.txt on Windows with the associated editor ( notepad.exe )
+    #or microsoft visual studio code if you did your homework properly
 
     $of myapp/somescript.py
-    (opens Z:\home\marcos\folder1\folder2\myapp\myscript.py on Windows with the associated editor)
+    #opens Z:\home\marcos\folder1\folder2\myapp\myscript.py on Windows with the associated editor
 
     $of myspreadsheet.xlsx
-    (opens Z:\home\marcos\folder1\folder2\myapp\myspreadsheet.xlsx on Windows with the associated editor (Excel/OpenOffice))
+    #opens Z:\home\marcos\folder1\folder2\myapp\myspreadsheet.xlsx on Windows with the associated editor (Excel/OpenOffice)
 
     **bonus**
     $of  File "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__
-    (open z:\home\marcos\3s\code\.engGama\src\django\django\core\servers\basehttp.py on line 139)
+    #open z:\home\marcos\3s\code\.engGama\src\django\django\core\servers\basehttp.py on line 139
 
     $of  "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__
-    (open z:\home\marcos\3s\code\.engGama\src\django\django\core\servers\basehttp.py on line 139)
+    #open z:\home\marcos\3s\code\.engGama\src\django\django\core\servers\basehttp.py on line 139
 
 
 ## How it works
@@ -78,9 +88,9 @@ If you type (on your Unix box, though putty):
 The only possible way: it is necessary to run a C# server on Windows which accepts and runs remote commands from the Unix box.
 
 It is actually not insecure if used properly (yes, it was made to be used by adults). Whenever on runs **of**, it sends the request to the IP which connected to the virtual terminal. The server will receive the request and pop up on the an UI saying that it received a request. If you click on accept, it will start trusting this IP address.
-To improve security:
+Some basic security features:
 
-* you can only trust on IP at a time (i.e. trusting another IP will make it automatically untrusts the former IP)
+* it only trusts on IP at a time (i.e. trusting another IP will make it automatically untrusts the former IP)
 * it does not save the trusted IP anywhere, so if you restart the program it will ask it again.
 
 
@@ -96,14 +106,12 @@ That means the tool is safe as long as you are not running nasty code **AND** yo
 
 ## Settings
 
-I recomend uncommenting the following lines on **of**
+I recommend uncommenting the following lines on **of**
   ALTERNATIVEOPENER="c:\progra~1\sublim~1\sublim~1.exe"
 as the default editor is wordpad.exe ( common denonimator )
 Also, you must change your folder paths on **of** (  z: is / as default )
 
-## Known Bugs
 
-**none*** 
 
 ## merger
 
