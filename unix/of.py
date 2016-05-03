@@ -18,6 +18,8 @@ REPLACE_PATH = [
     ["/mnt/e/", "e:\\"], # microsoft linux
     ["/mnt/f/", "f:\\"], # microsoft linux
     ["/", "z:\\"],
+    # ["/root/", "%LOCALAPPDATA%\\lxss\\root\\"], # microsoft linux
+    # ["/", "%LOCALAPPDATA%\\lxss\\rootfs\\"], # microsoft linux
 ]
 
 
