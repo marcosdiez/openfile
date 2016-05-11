@@ -197,12 +197,13 @@ def openfile(the_path, line_number=None):
                          line_number=line_number,
                          project_folder=project_folder
                          )
+    # print the_cmd
     send_socket_cmd(the_cmd)
 
 def get_project_folder(file_path):
     # this is ridiculous
-    # a PyCharm project stais under a .idea folder
-    # so I have to look for the folder in order for pycharm to work as expected
+    # a PyCharm project stays under a .idea folder
+    # so I have to look for the folder myself in order for pycharm to work as expected
     folder = os.path.dirname(file_path)
 
     while True:
