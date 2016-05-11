@@ -187,7 +187,6 @@ def openfile(the_path, line_number=None):
         cmd = opener["open_with_line_number_cmd"]
 
     the_path = make_absolute_path_if_necessary(the_path)
-    the_path = os.path.realpath(the_path)
 
     project_folder = path_replaced(get_project_folder(the_path))
     file_path = path_replaced(the_path)
@@ -217,6 +216,7 @@ def get_project_folder(file_path):
 
     return ""
 
+
 def send_socket_cmd(msg):
     msg = msg.strip()
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -230,13 +230,10 @@ def send_socket_cmd(msg):
         totalsent = totalsent + sent
 
 
-
-
-
 def make_absolute_path_if_necessary(the_path):
-    if the_path[0] == "/":
-        return the_path
-    return os.getcwd() + "/" + the_path
+    if the_path[0] != "/":
+        the_path = os.getcwd() + "/" + the_path
+    return os.path.realpath(the_path)
 
 
 def path_replaced(the_path):
