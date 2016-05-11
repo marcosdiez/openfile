@@ -31,7 +31,7 @@ openers = {
         "open_without_line_number_cmd": "{opener} \"{file_path}\""
     },
     "pycharm": {
-        "path": """C:\\Progra~2\\JetBrains\\PYCHAR~1.2\\bin\\pycharm.exe""",
+        "path": """C:\\Progra~2\\JetBrains\\PYCHAR~1.1\\bin\\pycharm.exe""",
         "open_with_line_number_cmd": "{opener} {project_folder} --line {line_number} \"{file_path}\"",
         "open_without_line_number_cmd": "{opener} {project_folder} \"{file_path}\""
     },
@@ -187,6 +187,7 @@ def openfile(the_path, line_number=None):
         cmd = opener["open_with_line_number_cmd"]
 
     the_path = make_absolute_path_if_necessary(the_path)
+    the_path = os.path.realpath(the_path)
 
     project_folder = path_replaced(get_project_folder(the_path))
     file_path = path_replaced(the_path)
@@ -244,7 +245,8 @@ def path_replaced(the_path):
             the_path = the_path.replace(replace_pair[0], replace_pair[1], 1)
             break
     the_path = the_path.replace(os.sep, "\\")
-    print "{} -- {} -> {}".format(server_ip(), old_path, the_path)
+    if the_path != "":
+        print "{} -- {} -> {}".format(server_ip(), old_path, the_path)
     return the_path
 
 
