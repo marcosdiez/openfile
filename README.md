@@ -18,7 +18,7 @@ To have Windows on my computer, but with a *real* Unix shell (not cygwin) instea
 * Install Unix on another machine (or a Virtual Machine )
 * Make sure both machines connect with each other though IP ( NAT or BRIDGE )
 * Share your Unix / folder with Windows thought **samba** ( mine are z:)
-* Use **putty** to connect to your Unix box, authenticating though ssh keys so you *never* have to type any password
+* Use **putty** to connect to your Unix box, authenticating through ssh keys so you *never* have to type any password
 * on Windows, run FolderOpener2.exe, which is the server that handles requests from Linux
 * on Linux, run of.py and the other python scripts. It's even more fun if you put them on your PATH
 * you may want to edit of.py to change the path of the openers. Since spaces don't work well, use *dir /X* to get the 8 chars folder names
