@@ -17,7 +17,7 @@ To have Windows on my computer, but with a *real* Unix shell (not cygwin) instea
 * Have Windows installed as your main OS
 * Install Unix on another machine (or a Virtual Machine )
 * Make sure both machines connect with each other though IP ( NAT or BRIDGE )
-* Share your Unix / folder with Windows thought **samba** ( mine are z:)
+* Share your Unix / folder with Windows thought **samba** ( mine is z: )
 * Use **putty** to connect to your Unix box, authenticating through ssh keys so you *never* have to type any password
 * on Windows, run FolderOpener2.exe, which is the server that handles requests from Linux
 * on Linux, run of.py and the other python scripts. It's even more fun if you put them on your PATH
@@ -86,12 +86,12 @@ If you type (on your Unix box, though putty):
 
 ## How it works
 
-The only possible way: it is necessary to run a C# server on Windows which accepts and runs remote commands from the Unix box.
+It is necessary to run a C# server on Windows which accepts and runs remote commands from the Unix box.
 
-It is actually not insecure if used properly (yes, it was made to be used by adults). Whenever on runs **of**, it sends the request to the IP which connected to the virtual terminal. The server will receive the request and pop up on the an UI saying that it received a request. If you click on accept, it will start trusting this IP address.
+It is actually not insecure if used properly (yes, it was made to be used by adults). Whenever one runs **of**, it sends the request to the IP which is connected to the virtual terminal (obtained via `who`). The server will receive the request and pop up on the an UI saying that it received a request. If you click on accept, it will start trusting this IP address.
 Some basic security features:
 
-* it only trusts on IP at a time (i.e. trusting another IP will make it automatically untrusts the former IP)
+* it only trusts one IP at a time (i.e. trusting another IP will automatically untrust the former IP)
 * it does not save the trusted IP anywhere, so if you restart the program it will ask it again.
 
 
@@ -101,16 +101,16 @@ That means the tool is safe as long as you are not running nasty code **AND** yo
 ## What comes in the package
 
 * smb.conf
-* the **of** python script
+* the `of.py` python script
 * the C# server (compiled and source) # no install and no config, just click and run!
 * this documentation
 
 ## Settings
 
-I recommend uncommenting the following lines on **of**
+I recommend uncommenting the following lines on `of`
   ALTERNATIVEOPENER="c:\progra~1\sublim~1\sublim~1.exe"
 as the default editor is wordpad.exe ( common denonimator )
-Also, you must change your folder paths on **of** (  z: is / as default )
+Also, you must change your folder paths on `of` (  z: is / as default )
 
 
 
