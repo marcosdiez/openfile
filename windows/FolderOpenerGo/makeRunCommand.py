@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
-LIMIT=30
+LIMIT=3
 
 for i in range(1, LIMIT+1):
-    print("  if cmd_array_len == " + f"{i}" + " {")
+    if i != LIMIT:
+        print("  if cmd_array_len == " + f"{i}" + " {")
 
-    print("    cmd = exec.Command(", end="")
+    print("    return exec.Command(", end="")
     for j in range(0, i):
         print(f"cmd_array[{j}]", end="")
         if j == i -1 :
@@ -15,5 +16,7 @@ for i in range(1, LIMIT+1):
 
 
     # print("")
-    print("  }")
+    if i != LIMIT:
+        print("  }")
+
     print("")
