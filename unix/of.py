@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 from __future__ import unicode_literals
 
 import time
@@ -10,7 +10,7 @@ import os.path
 import socket
 # settings
 
-TARGET_PORT = 9998
+TARGET_PORT = 9997
 
 REPLACE_PATH = [
     ["/mnt/c/", "c:\\"], # microsoft linux
@@ -35,27 +35,38 @@ openers = {
         "open_with_line_number_cmd": "{opener} {project_folder} --line {line_number} \"{file_path}\"",
         "open_without_line_number_cmd": "{opener} {project_folder} \"{file_path}\""
     },
-    "mscode": {
-        "path": """c:\\progra~2\\mifa7f~1\\code.exe""",
-        "open_with_line_number_cmd": "{opener} -g -r \"{file_path}\":{line_number} ",
-        "open_without_line_number_cmd": "{opener} -r \"{file_path}\""
+    "vscode": {
+        "path": """c:\\progra~1\\mifa7f~1\\code.exe""",
+        "open_with_line_number_cmd": "{opener} -g -r {file_path}:{line_number} ",
+        "open_without_line_number_cmd": "{opener} -r {file_path}"
     },
     "explorer": {
-        "path": "explorer.exe",
-        "open_with_line_number_cmd": '{opener} "{file_path}"',
-        "open_without_line_number_cmd": '{opener} "{file_path}"',
+        "path": "c:\\windows\\explorer.exe",
+        "open_with_line_number_cmd": '{opener} {file_path}',
+        "open_without_line_number_cmd": '{opener} {file_path}',
     },
     "audacity": {
         "path": "c:\\Progra~2\\Audacity\\audacity.exe",
-        "open_with_line_number_cmd": '{opener} "{file_path}"',
-        "open_without_line_number_cmd": '{opener} "{file_path}"',
-    }
-
+        "open_with_line_number_cmd": '{opener} {file_path}',
+        "open_without_line_number_cmd": '{opener} {file_path}',
+    },
+    "phpstorm": {
+        "path": "c:\\progra~1\\jetbrains\\phpsto~1.1\\bin\\phpstorm64.exe",
+        "open_with_line_number_cmd": "{opener} --line {line_number} {file_path}",
+        "open_without_line_number_cmd": "{opener} {file_path}",
+   },
+    "notepad++": {
+        "path": "c:\\progs\\notepadplusplus\\notepad++.exe",
+        "open_with_line_number_cmd": "{opener} -n{line_number} {file_path}",
+        "open_without_line_number_cmd": "{opener} {file_path}",
+   }
 }
 
 open_associations = {
-    ".py": openers["pycharm"],
+#    ".py": openers["pycharm"],
+#    ".php": openers["phpstorm"],
     ".mp3": openers["explorer"],
+    ".csv": openers["explorer"],
     ".xls": openers["explorer"],
     ".xlsx": openers["explorer"],
     ".doc": openers["explorer"],
@@ -65,9 +76,10 @@ open_associations = {
     ".ico": openers["explorer"],
     ".sqlite3": openers["explorer"],
     ".pdf": openers["explorer"],
-    ".java": openers["androidstudio"],
+#    ".java": openers["androidstudio"],
     ".wav": openers["audacity"],
-    "*": openers["mscode"],
+#    "*": openers["notepad++"],
+    "*" : openers["vscode"],
 }
 
 #the ALTERNATIVEOPENER will be used for files without extensions (README, .bashrc, etc...)
@@ -130,7 +142,8 @@ def open_url(target_url):
         return
 
     if os.path.isdir(target_url):
-        opendir(target_url)
+        # opendir(target_url)
+        openfile(target_url, opener=openers["explorer"])
         return
 
     if os.path.isfile(target_url):
@@ -152,7 +165,7 @@ def open_url(target_url):
         openfile(target_url, line_number)
         return
 
-    print "Error: File/Dir [%s] does not exist." % target_url
+    print("Error: File/Dir [%s] does not exist." % target_url)
 
 
 def is_internet_address(target_url):
@@ -172,14 +185,15 @@ def get_file_extension(the_path):
     return the_path[last_dot + 1:].lower()
 
 
-def openfile(the_path, line_number=None):
+def openfile(the_path, line_number=None, opener=None):
     last_dot = the_path.rfind(".")
     extension = the_path[last_dot:]
 
-    if extension in open_associations:
-        opener = open_associations[extension]
-    else:
-        opener = open_associations["*"]
+    if opener is None:
+        if extension in open_associations:
+            opener = open_associations[extension]
+        else:
+            opener = open_associations["*"]
 
     if line_number is None:
         cmd = opener["open_without_line_number_cmd"]
@@ -196,7 +210,7 @@ def openfile(the_path, line_number=None):
                          line_number=line_number,
                          project_folder=project_folder
                          )
-    # print the_cmd
+
     send_socket_cmd(the_cmd)
 
 def get_project_folder(file_path):
@@ -218,7 +232,8 @@ def get_project_folder(file_path):
 
 
 def send_socket_cmd(msg):
-    msg = msg.strip()
+
+    msg = msg.strip().encode()
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect((server_ip(), TARGET_PORT))
     totalsent = 0
@@ -244,12 +259,12 @@ def path_replaced(the_path):
             break
     the_path = the_path.replace(os.sep, "\\")
     if the_path != "":
-        print "{} -- {} -> {}".format(server_ip(), old_path, the_path)
+        print("{} -- {} -> {}".format(server_ip(), old_path, the_path))
     return the_path
 
 
 def is_microsoft_linux():
-    with file("/proc/version") as f:
+    with open("/proc/version") as f:
         file_content = f.read()
         return "Microsoft" in file_content
     return False
@@ -259,7 +274,7 @@ def server_ip():
     if is_microsoft_linux():
         return "127.0.0.1"
     #IP=`who --ips -m|egrep -o --color=no   "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+"`
-    output = subprocess.check_output(["who", "--ips", "-m"])
+    output = subprocess.check_output(["who", "--ips", "-m"]).decode('ascii')
     the_ip = re.search("\\d+\\.\\d+.\\d+.\\d+", output)
     return the_ip.group(0)
 
@@ -267,7 +282,7 @@ def server_ip():
 def usage():
     """explains how to use the program"""
 
-    print """Opens Folders and Files on the remote machine.
+    print("""Opens Folders and Files on the remote machine.
 usage:
 
 of /tmp/blah.txt
@@ -276,7 +291,7 @@ of somefolder/otherfolder/blah.xls
 of File "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__ #open on line 139
 of "/home/marcos/3s/code/.envGama/src/django/django/core/servers/basehttp.py", line 139, in __init__ #open on line 139
 
-"""
+""")
 
 
 if __name__ == "__main__":
