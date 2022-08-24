@@ -236,7 +236,7 @@ func handleRequest(conn net.Conn) {
 
 func runCommandIfSafe(source_ip string, cmd_string string) {
 	unsafeCommands := []string{"rm ", "cmd ", "echo ", "del ", "GET ", "POST ", "HEAD ", "PUT ", "OPTIONS ", "PATCH "}
-	unsafeChars := []string{">", "<", "=", "|"}
+	unsafeChars := []string{">", "<", "=", "|", ";"}
 
 	for _, unsafeCommand := range unsafeCommands {
 		if strings.HasPrefix(cmd_string, unsafeCommand) {
