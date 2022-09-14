@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+set -e
+if [[ ! -z "$1" ]]
+then
+	touch $1
+fi
+if [[ "$1" == *.sh ]] || [[ "$1" == *.py ]]
+then
+	chmod 755 $1
+fi
+of $1
