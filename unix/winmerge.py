@@ -31,7 +31,7 @@ def launch_winmerge(first_file, second_file):
     converted_first_file = of.convert_path(first_file)
     converted_second_file = of.convert_path(second_file)
 
-    final_command = """{} "{}" "{}" """.format(
+    final_command = """{} {} {} """.format(
     	WINMERGE_PATH, converted_first_file, converted_second_file)
     of.send_socket_cmd(final_command)
 
@@ -43,7 +43,7 @@ def launch_meld(first_file, second_file, third_file):
     converted_second_file = of.convert_path(second_file)
     converted_third_file = of.convert_path(third_file)
 
-    final_command = """{} "{}" "{}" "{}" """.format(
+    final_command = """{} {} {} {} """.format(
         MELD_PATH,
         converted_first_file,
         converted_second_file,
