@@ -5,7 +5,7 @@ import os.path
 import hashlib
 import of
 
-WINMERGE_PATH = """c:\\progs\\WinMerge-2.8.4-exe\\WinMergeU.exe"""
+WINMERGE_PATH = """c:\\progs\\WinMerge\\WinMergeU.exe"""
 MELD_PATH =  """c:\\progs\\WinMerge\\WinMergeU.exe""" # """c:\\progra~2\\Meld\\Meld.exe"""
 
 

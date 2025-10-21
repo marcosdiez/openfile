@@ -118,7 +118,7 @@ def main():
         if first:
             first = False
         else:
-            #time.sleep(3)
+            # time.sleep(1)
             pass
         open_url(parameter)
     return
@@ -274,7 +274,7 @@ def server_ip():
     if is_microsoft_linux():
         return "127.0.0.1"
     #IP=`who --ips -m|egrep -o --color=no   "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+"`
-    output = subprocess.check_output(["who", "--ips", "-m"]).decode('ascii')
+    output = subprocess.check_output(["who", "-m"]).decode('ascii')
     the_ip = re.search("\\d+\\.\\d+.\\d+.\\d+", output)
     return the_ip.group(0)
 
